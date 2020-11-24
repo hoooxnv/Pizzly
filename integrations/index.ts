@@ -1,4 +1,4 @@
-import './adobe-sign.json'
+/* import './adobe-sign.json'
 import './asana.json'
 import './basecamp.json'
 import './bitbucket.json'
@@ -83,3 +83,10 @@ import './zoho-crm.json'
 import './zoho-invoices.json'
 import './zoho-subscriptions.json'
 import './zoom.json'
+ */
+
+import './microsoft.json'
+import './github.json'
+import './teamleader.json'
+import './slack.json'
+import './mailchimp.json'

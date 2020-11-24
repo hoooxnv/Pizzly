@@ -1,0 +1,20 @@
+{
+  "name": "Teamleader",
+  "image": "https://s3-eu-west-1.amazonaws.com/tpd/logos/596778cc0000ff0005a6956f/0x0.png",
+  "auth": {
+    "authorizationURL": "https://app.teamleader.eu/oauth2/authorize",
+    "tokenURL": "https://app.teamleader.eu/oauth2/access_token",
+    "authType": "OAUTH2",
+    "tokenParams": { "grant_type": "authorization_code" },
+    "authorizationParams": {},
+    "auth": { "response_type": "code" }
+  },
+  "request": {
+    "baseURL": "https://api.teamleader.eu/",
+    "headers": {
+      "Accept": "application/json",
+      "Authorization": "Bearer ${auth.accessToken}",
+      "User-Agent": "Pizzly"
+    }
+  }
+}

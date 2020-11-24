@@ -3,7 +3,6 @@ node_modules
 jspm_packages
 .webpack
 .env
-
 .envrc
 
 .cache/

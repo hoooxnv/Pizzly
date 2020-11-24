@@ -1,6 +1,58 @@
-version: '3'
+version: '2'
 services:
-  database:
-    image: postgres
+  pizzly-init:
+    image: hoooxnv/pizzly:latest
+    restart: on-failure
+    depends_on:
+      - postgres
+    networks:
+      - database-network
+    command: ["./wait-for-postgres.sh", "yarn", "db:setup"]
+    environment:
+      DB_HOST: postgres
+      DB_DATABASE: $DB_DATABASE
+      DB_USER: $DB_USER
+      DB_PASSWORD: $DB_PASSWORD
+
+  pizzly:
+    image: hoooxnv/pizzly:latest
+    restart: unless-stopped
     ports:
-      - '5432:5432'
+      - 8080:8080
+    depends_on:
+      - pizzly-init
+      - postgres
+    networks:
+      - database-network
+    environment:
+      DB_HOST: postgres
+      DB_DATABASE: $DB_DATABASE
+      DB_USER: $DB_USER
+      DB_PASSWORD: $DB_PASSWORD
+      DASHBOARD_USERNAME: $DASHBOARD_USERNAME
+      DASHBOARD_PASSWORD: $DASHBOARD_PASSWORD
+      SECRET_KEY: $SECRET_KEY
+      PUBLISHABLE_KEY: $PUBLISHABLE_KEY
+      PROXY_USES_SECRET_KEY_ONLY: "TRUE"
+      BEARER_SECRET_KEY: $BEARER_SECRET_KEY
+
+  # https://hub.docker.com/_/postgres
+  postgres:
+    image: postgres:13.1-alpine
+    restart: unless-stopped
+    ports:
+      - 5432:5432
+    networks:
+      - database-network
+    environment:
+      POSTGRES_DB: $DB_DATABASE
+      POSTGRES_USER: $DB_USER
+      POSTGRES_PASSWORD: $DB_PASSWORD
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
+
+networks:
+  database-network:
